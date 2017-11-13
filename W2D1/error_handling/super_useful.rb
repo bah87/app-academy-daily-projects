@@ -1,30 +1,54 @@
+require 'byebug'
 # PHASE 2
 def convert_to_int(str)
-  Integer(str)
+  begin
+    Integer(str)
+  # rescue
+  #   puts 'not an integer'
+  # end
+  rescue ArgumentError => e
+    puts 'Not an integer!'
+  end
+  
 end
 
 # PHASE 3
 FRUITS = ["apple", "banana", "orange"]
 
+class CoffeeError < StandardError; end 
+
+
 def reaction(maybe_fruit)
-  if FRUITS.include? maybe_fruit
-    puts "OMG, thanks so much for the #{maybe_fruit}!"
-  else 
-    raise StandardError 
-  end 
+  puts "OMG, thanks so much for the #{maybe_fruit}!"
 end
 
 def feed_me_a_fruit
   puts "Hello, I am a friendly monster. :)"
 
-  puts "Feed me a fruit! (Enter the name of a fruit:)"
-  maybe_fruit = gets.chomp
-  reaction(maybe_fruit) 
+  begin
+    puts "Feed me a fruit! (Enter the name of a fruit:)"
+    maybe_fruit = gets.chomp
+    if FRUITS.include?(maybe_fruit)
+      reaction(maybe_fruit) 
+    elsif maybe_fruit == "coffee"
+      raise CoffeeError
+    else 
+      raise StandardError
+    end 
+  rescue CoffeeError => error 
+    retry
+  rescue StandardError => error 
+    puts "Not coffee or fruit"
+  end  
 end  
 
 # PHASE 4
+class NotFriendsError < StandardError ; end
 class BestFriend
   def initialize(name, yrs_known, fav_pastime)
+    if yrs_known < 5 || name == '' || fav_pastime == ''
+      raise NotFriendsError
+    end
     @name = name
     @yrs_known = yrs_known
     @fav_pastime = fav_pastime
