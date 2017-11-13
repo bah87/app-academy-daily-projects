@@ -89,7 +89,7 @@ class Cursor
   def update_pos(diff)
     x, y = @cursor_pos
     x1, y1 = diff
-    if (x+x1).between?(0, 7) && (y+y1).between?(0, 7)
+    if board.in_bounds?([x + x1, y + y1])
       @cursor_pos = [x + x1, y + y1] 
     end
   end

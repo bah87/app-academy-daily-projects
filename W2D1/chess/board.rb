@@ -28,10 +28,12 @@ class Board
     raise NoPieceError if self[start_pos].nil?
     
     piece = self[start_pos]
-    #piece.moves(end_pos, self)
-    self[end_pos] = piece 
-    self[start_pos] = NullPiece.new
-    
+    if piece.moves.include?(end_pos)
+      self[end_pos] = piece 
+      self[start_pos] = NullPiece.new
+    else 
+      raise InvalidMoveError
+    end
   end
   
   def empty_row
@@ -39,13 +41,22 @@ class Board
   end
   
   def pawn_row
-    Array.new(8) {Piece.new}
+    Array.new(8) {Piece.new([0,0], self)}
   end
   
   def back_row
-    Array.new(8) {Piece.new}
+    Array.new(8) {Piece.new([0,0], self)}
+  end
+  
+  def in_bounds?(pos)
+    pos.all? {|x| x.between?(0,7)}
+  end
+  
+  def occupied?(pos)
+    self[current_pos].class == Piece
   end
   
 end
 
 class NoPieceError < StandardError; end
+class InvalidMoveError < StandardError; end
