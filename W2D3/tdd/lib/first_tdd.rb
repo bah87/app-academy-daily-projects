@@ -46,8 +46,39 @@ class Array
         end
       end
     end
+    
     days
+  end
+  
+end
+
+class DiscError < StandardError
+end
+
+class Towers
+  attr_reader :towers 
+  
+  def initialize(towers = [[3,2,1], [], []])
+    @towers = towers
+  end
+  
+  def get_input
     
   end
   
+  def move(from, to)
+    if !self.towers[to].empty? && self.towers[from].last > self.towers[to].last
+      raise DiscError
+    elsif self.towers[from].empty?
+      raise DiscError
+    end
+    
+    disc = self.towers[from].pop
+    self.towers[to] << disc
+  end
+  
+  def won?
+    self.towers == [[], [], [3,2,1]] ||
+    self.towers == [[], [3,2,1], []]
+  end
 end

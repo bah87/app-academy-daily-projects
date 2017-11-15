@@ -90,3 +90,64 @@ describe Array do
   end
   
 end
+
+describe Towers do
+  
+  subject(:game) { Towers.new }
+  
+  describe "#towers" do
+    
+    it "sets up towers correctly" do
+      expect(game.towers).to eq([[3,2,1], [], []])
+    end    
+  
+  end
+  
+  describe "#move" do 
+    
+    it "accepts two arguments" do
+      expect { game.move(1) }.to raise_error(ArgumentError)
+    end
+    
+    it "only accepts integers as arguments" do
+      expect { game.move("1","2") }.to raise_error(TypeError)
+    end
+    
+    it "updates @towers array" do
+      game.move(0,1)
+      expect(game.towers).not_to eq([[3,2,1], [], []])
+    end
+    
+    it "correctly places disc" do
+      game.move(0,1)
+      expect(game.towers).to eq([[3,2], [1], []])
+    end
+    
+    it "places disc on empty tower" do
+      expect {game.move(0,1)}.not_to raise_error
+    end
+    
+    it "does not place larger disc on top of smaller disc" do
+      game.move(0,1)
+      expect {game.move(0,1)}.to raise_error(DiscError)
+    end
+    
+    it "does not move from empty tower" do
+      expect { game.move(1,2) }.to raise_error(DiscError)
+    end
+    
+  end
+  
+  describe "#won?" do
+    it "returns true if game is over" do
+      winning_moves = [[0,1],[0,2],[1,2],[0,1],[2,0],[2,1],[0,1]]
+      winning_moves.each do |move|
+        from, to = move
+        game.move(from, to)
+      end
+      
+      expect(game.won?).to be true      
+    end
+  end
+  
+end
