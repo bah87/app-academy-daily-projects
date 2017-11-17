@@ -25,6 +25,7 @@ class StaticArray
 end
 
 class DynamicArray
+  include Enumerable
   attr_reader :count
 
   def initialize(capacity = 8)
@@ -33,9 +34,11 @@ class DynamicArray
   end
 
   def [](i)
+    @store[i]
   end
 
   def []=(i, val)
+    @store[i] = val
   end
 
   def capacity
@@ -43,27 +46,62 @@ class DynamicArray
   end
 
   def include?(val)
+    self.each do |el|
+      return true if val == el
+    end
+    
+    false
   end
 
   def push(val)
+    resize! if count == capacity
+    @store[count] = val
+    @count += 1
   end
 
   def unshift(val)
+    store = @store.dup
+    @store[0] = val
+    store[0..-2].each.with_index do |el, idx|
+      @store[idx+1] = el
+    end
+    
+    self.push(store[-1])
+    
+    
+    @count += 1
+    @store
   end
 
   def pop
+    return nil if count.zero?
+    popped = @store[count-1]
+    @store[count-1] = nil
+    @count -= 1
+    popped
   end
 
   def shift
+    @store.shift
+    @count -= 1
   end
 
   def first
+    @store[0]
   end
 
   def last
+    @store[count-1]
   end
 
-  def each
+  def each(&prc)
+    i = 0
+    while i < capacity
+      prc.call(self[i])
+      i += 1
+    end 
+    
+    self
   end
 
   def to_s
@@ -81,5 +119,6 @@ class DynamicArray
   private
 
   def resize!
+    
   end
 end
