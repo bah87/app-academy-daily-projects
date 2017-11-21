@@ -1,16 +1,7 @@
 require_relative '../model_base'
 
-class Reply
-  
-  def self.all
-    data = QuestionDBConnection.instance.execute("SELECT * FROM replies")
-    data.map {|datum| Reply.new(datum)}
-  end
-  
-  def self.find_by_id(id)
-    data = QuestionDBConnection.instance.execute("SELECT * FROM replies WHERE replies.id = '#{id}'")
-    Reply.new(data.first)
-  end
+class Reply < ModelBase
+  TABLE = "replies"
   
   def self.find_by_user_id(id)
     data = QuestionDBConnection.instance.execute("SELECT * FROM replies WHERE replies.user_id = '#{id}'")
@@ -24,7 +15,6 @@ class Reply
   
   
   attr_accessor :body, :user_id, :question_id, :parent_id
-  attr_reader :id
   
   def initialize(options)
     @id = options['id']
@@ -32,33 +22,6 @@ class Reply
     @user_id = options['user_id']
     @question_id = options['question_id']
     @parent_id = options['parent_id']
-  end
-  
-  def create
-    raise "#{self} already exists in database" if @id
-    QuestionDBConnection.instance.execute(<<-SQL, @body, @user_id, @question_id, @parent_id)
-      INSERT INTO
-        replies (body, user_id, question_id, parent_id)
-      VALUES
-        (?, ?, ?, ?);
-    SQL
-    @id = QuestionDBConnection.instance.last_insert_row_id
-  end
-  
-  def update
-    raise "#{self} does not exist in database" unless @id
-    QuestionDBConnection.instance.execute(<<-SQL, @body, @user_id, @question_id, @parent_id, @id)
-      UPDATE
-        replies
-      SET
-        body = ?, user_id = ?, question_id = ?, parent_id = ?
-      WHERE
-        id = ?;
-    SQL
-  end
-  
-  def save
-    @id ? update : create
   end
   
   def author 
