@@ -1,6 +1,6 @@
-# require_relative '../questions_database'
+require_relative '../model_base'
 
-class User 
+class User < ModelBase
     
   def self.all
     data = QuestionDBConnection.instance.execute("SELECT * FROM users")
@@ -49,12 +49,46 @@ class User
     SQL
   end
   
+  def save
+    @id ? update : create
+  end
+  
   def authored_questions
     Question.find_by_author_id(self.id)
   end
   
   def authored_replies
     Reply.find_by_user_id(self.id)
+  end
+  
+  def followed_questions
+    QuestionFollow.followed_questions_for_user_id(self.id)
+  end
+
+  def liked_questions
+    QuestionLike.liked_questions_for_user_id(self.id)
+  end
+  
+  def average_karma
+    data = QuestionDBConnection.instance.execute(<<-SQL, @id)
+      SELECT 
+        CASE COUNT(DISTINCT(questions.id))
+        WHEN 0 THEN 0
+        ELSE CAST(COUNT(questions.id) AS FLOAT) / COUNT(DISTINCT(questions.id))
+        END AS karma
+      FROM 
+        users 
+      LEFT OUTER JOIN 
+        questions ON questions.user_id = users.id  
+      LEFT OUTER JOIN 
+        question_likes ON question_likes.question_id = questions.id
+      WHERE 
+        users.id = ?
+      GROUP BY 
+        users.id;
+    SQL
+    
+    data.first.values.first
   end
   
 end

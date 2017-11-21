@@ -1,4 +1,4 @@
-# require_relative '../questions_database'
+require_relative '../model_base'
 
 class Reply
   
@@ -55,6 +55,10 @@ class Reply
       WHERE
         id = ?;
     SQL
+  end
+  
+  def save
+    @id ? update : create
   end
   
   def author 
