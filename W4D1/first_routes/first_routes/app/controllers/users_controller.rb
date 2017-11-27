@@ -1,6 +1,11 @@
 class UsersController < ApplicationController
   def index
-    render json: User.all
+    if request.query_string.present?
+      user = User.where("username LIKE '%#{params[:username]}%'")
+      render json: user
+    else
+      render json: User.all
+    end
   end
   
   def create
@@ -13,7 +18,6 @@ class UsersController < ApplicationController
   end
   
   def show
-    # debugger
     user = User.find(params[:id])
     render json: user
   end
@@ -30,11 +34,11 @@ class UsersController < ApplicationController
   def destroy
     user = User.find(params[:id])
     user.destroy
-    render json: ['The user has been deleted.']
+    render json: user
   end
   
   private
   def user_params
-    params.require(:user).permit(:name, :email)
+    params.require(:user).permit(:username)
   end
 end
