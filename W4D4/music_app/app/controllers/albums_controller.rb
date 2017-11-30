@@ -28,22 +28,32 @@ class AlbumsController < ApplicationController
   end
   
   def update
+    band = Band.find_by(name: album_params[:band_id])
+
+    new_params = {
+      band_id: band.id,
+      title: album_params[:title],
+      year: album_params[:year].to_i,
+      live_or_studio: album_params[:live_or_studio]
+    }
+    
     @album = Album.find(params[:id])
-    if @album.update_attributes(album_params)
+    if @album.update_attributes(new_params)
       redirect_to album_url(@album)
     else
       render :edit
     end
   end
-  # 
-  # def destroy
-  #   @band = Band.find(params[:id])
-  #   if @band.destroy
-  #     render :index
-  #   else
-  #     render :show
-  #   end
-  # end
+  
+  def destroy
+    @album = Album.find(params[:id])
+    band = @album.band
+    if @album.destroy
+      redirect_to band_url(band)
+    else
+      render :show
+    end
+  end
   
   private
   def album_params

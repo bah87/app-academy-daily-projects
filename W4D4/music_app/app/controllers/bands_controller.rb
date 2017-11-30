@@ -4,6 +4,7 @@ class BandsController < ApplicationController
   
   def create
     @band = Band.new(band_params)
+    @band.user_id = current_user.id
     if @band.save
       redirect_to band_url(@band)
     else

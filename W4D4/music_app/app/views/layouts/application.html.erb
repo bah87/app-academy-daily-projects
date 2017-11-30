@@ -9,14 +9,18 @@
   </head>
   
   <header>
-    <h1>Soundbites</h1>
-    <% if logged_in? %>
-    <h2>Welcome, <%= current_user.email %></h2>
-    <form action="<%= session_url %>" method="post">
-      <%= auth_token %>
-      <input type="hidden" name="_method" value="delete">
-      <input type="submit" value="Logout">
-    </form>
+    <h1>SoundStorage</h1>
+    
+    <nav>
+      <% if logged_in? %>
+      <h3>You are logged in as <%= current_user.email %></h3>
+      <form action="<%= session_url %>" method="post">
+        <%= auth_token %>
+        <input type="hidden" name="_method" value="delete">
+        <input type="submit" value="Logout">
+      </form>
+    </nav>
+    
     <% else %>
     <a href="<%= new_session_url %>">Log In</a>
     <a href="<%= new_user_url %>">Sign Up</a>
@@ -28,4 +32,8 @@
     <%= yield %>
     
   </body>
+  
+  <footer>
+    <p>Powered by SoundStorage</p>
+  </footer>
 </html>

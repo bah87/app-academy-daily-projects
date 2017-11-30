@@ -16,4 +16,7 @@ class Album < ApplicationRecord
   validates :live_or_studio, inclusion: ["live", "studio"]
   
   belongs_to :band
+  
+  has_many :tracks,
+  dependent: :destroy
 end

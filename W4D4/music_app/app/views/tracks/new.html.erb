@@ -1,0 +1,28 @@
+<h2>Add track to album</h2>
+<form action="<%= tracks_url %>" method="post">
+  <%= auth_token %>
+  
+  <label>Title
+    <input type="text" name="track[title]">
+  </label><br><br>
+  
+  <label>Number
+    <input type="text" name="track[order]">
+  </label><br><br>
+  
+  <label>Lyrics
+    <textarea name="track[lyrics]"></textarea>
+  </label><br><br>
+  
+  <label>Album
+    <select name="track[album]">
+      <option disabled selected>--Select album--</option>
+      <% current_user.bands.each do |band| %>
+        <% band.albums.each do |album| %>
+          <option value="<%= album.title %>"><%= album.title.capitalize %></option>
+        <% end %>
+      <% end %>
+    </select>
+  </label>
+  
+</form>

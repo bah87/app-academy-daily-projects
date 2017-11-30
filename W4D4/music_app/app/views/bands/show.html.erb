@@ -12,6 +12,11 @@
   <input type="submit" name="name" value="Delete band">
 </form>
 
+<form action=" <%= new_album_url %> " method="post">
+  <input type="hidden" name="_method" value="get">
+  <input type="submit" name="name" value="Add album">
+</form>
+
 <table>
   <tr>
     <th>Title</th>
