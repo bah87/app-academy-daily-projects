@@ -1,0 +1,30 @@
+<h2><%= @album.title %></h2>
+
+<table>
+  <tr>
+    <th>Year</th>
+    <th>Band</th>
+    <th>Live/Studio</th>
+  </tr>
+  <tr>
+    <th><%= @album.year %></th>
+    <th><%= @album.band.name %></th>
+    <th><%= @album.live_or_studio %></th>
+  </tr>
+</table>
+
+<form action="<%= edit_album_url(@album) %>" method="post">
+  <input type="hidden" name="_method" value="get">
+  <input type="submit" name="name" value="Edit album">
+</form>
+
+<form action="<%= album_url(@album) %>" method="post">
+  <%= auth_token %>
+  <input type="hidden" name="_method" value="delete">
+  <input type="submit" name="name" value="Delete album">
+</form>
+
+<form action="<%= band_url(@album.band) %>" method="post">
+  <input type="hidden" name="_method" value="get">
+  <input type="submit" name="name" value="Go to band">
+</form>

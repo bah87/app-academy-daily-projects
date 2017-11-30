@@ -1,0 +1,24 @@
+<h2>Your bands</h2>
+<% current_user.bands.each do |band| %>
+  
+  <h3><%= band.name %></h3>
+  
+  <form action="<%= band_url(band) %>" method="post">
+    <%= auth_token %>
+    <input type="hidden" name="_method" value="get">
+    <input type="submit" name="name" value="Go to band">
+  </form>
+  
+  <form action=" <%= edit_band_url(band) %> " method="post">
+    <%= auth_token %>
+    <input type="hidden" name="_method" value="get">
+    <input type="submit" name="name" value="Edit band">
+  </form>
+
+  <form action=" <%= band_url(band) %> " method="post">
+    <%= auth_token %>
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" name="name" value="Delete band">
+  </form>
+  
+<% end %>
