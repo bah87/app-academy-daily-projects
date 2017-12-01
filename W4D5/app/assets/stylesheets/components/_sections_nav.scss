@@ -1,0 +1,19 @@
+.section-nav {
+  padding: 10px 0;
+  border-bottom: 1px solid $light-gray;
+  display: flex;
+  justify-content: center;
+}
+
+.section-nav a {
+  margin: 0 10px;
+}
+  
+.section-nav a:hover {
+  background-color: $gray;
+}
+
+.section-nav a:last-child:hover {
+  background-color: transparent;
+  text-decoration: underline; 
+}

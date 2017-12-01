@@ -1,0 +1,51 @@
+
+
+
+button:hover {
+	background-color: $light-gray;
+}
+
+button.blue-btn {
+  background-color: $blue;
+  color: white;
+}
+
+button.blue-btn:hover {
+  background-color: $dark-blue;
+  border-color: $darkest-blue;
+}
+
+
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom: 1px solid $light-gray;
+}
+
+// ul {
+//   display: flex;
+//   align-items: center;
+// }
+
+
+
+#sections-sidebar-btn, #search-modal-btn {
+  display: flex;
+  align-items: center;
+}
+
+.main-nav i[id="sections-sidebar-btn search-modal-btn"] {
+  font-size: 10px;
+  
+}
+
+i.fa {
+  margin: 0 10px;
+}
+
+#gear-dropdown-btn {
+  font-size: 16px;
+  height: 15px;
+  box-sizing: content-box;
+}
