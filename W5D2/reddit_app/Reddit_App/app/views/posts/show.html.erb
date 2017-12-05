@@ -1,0 +1,33 @@
+<section>
+  <h1><%= @post.title %></h1>
+  <h2><%= @post.author.username %></h2>
+  
+  <article class="">
+    <h3>Content:</h3>
+    <p><%= @post.content %></p>
+  </article>
+  
+  <p><strong>Subs</strong></p>
+  
+  <ul>
+    <% @post.subs.each do |sub_forum| %>
+      <li>
+        <a href="<%= sub_url(sub_forum) %>"><%= sub_forum.title %></a>
+      </li>
+    <% end %>
+  </ul>
+  
+  <h1>Comments</h1>
+  <a href="<%= new_post_comment_url(@post) %>">New Comment</a>
+  
+  <ul>
+    <% @comments_by_parent_id[nil].each do |parent| %>
+      <li><a href="<%= comment_url(parent) %>"><%= parent[:content] %></a> 
+        <ul>
+          <%= render "shared/comment", parents: @comments_by_parent_id[parent[:id]] %>
+        </ul>
+      </li>
+    <% end %>
+  </ul>
+  
+</section>

@@ -1,0 +1,8 @@
+<% parents.each do |child| %>
+  <li>
+    <a href="<%= comment_url(child) %>"><%= child[:content] %></a> 
+    <ul>
+      <%= render "shared/comment", parents: @comments_by_parent_id[child[:id]] %>
+    </ul>
+  </li>
+<% end %>

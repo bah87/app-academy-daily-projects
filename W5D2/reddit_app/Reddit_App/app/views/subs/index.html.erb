@@ -1,0 +1,12 @@
+<section>
+  <h1>All the Subs!</h1>
+  
+  <ul>
+    <% @subs.each do |sub_forum| %>
+      <li>
+        <a href="<%= sub_url(sub_forum) %>"><%= sub_forum.title %></a>
+      </li>
+    <% end %>
+  </ul>
+  
+</section>

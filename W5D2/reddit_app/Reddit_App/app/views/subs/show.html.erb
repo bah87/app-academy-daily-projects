@@ -1,0 +1,34 @@
+<h1><%= @sub.title %></h1>
+
+<h2>Description</h2>
+<p><%= @sub.description %></p>
+
+<a href="<%= new_post_url %>">Make New Post!</a>
+
+<ul>
+  <% @sub.posts.each do |post| %>
+    <li>
+      <a href="<%= post_url(post) %>"><%= post.title %></a>
+      
+      <form class="" action="<%= post_url(post) %>" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="hidden" name="_method" value="delete">
+        <input type="submit" name="" value="Upvote">
+      </form>
+      
+      <form class="" action="<%= post_url(post) %>" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="hidden" name="_method" value="delete">
+        <input type="submit" name="" value="Downvote">
+      </form>
+      
+      <% if current_user.id == post.author.id %>    
+        <form class="" action="<%= post_url(post) %>" method="post">
+          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+          <input type="hidden" name="_method" value="delete">
+          <input type="submit" name="" value="Delete Post">
+        </form>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
