@@ -1,0 +1,23 @@
+/* PHASE 5: Cats */
+.content-header {
+  width: 100%;
+  height: 200px;
+  /*overflow: hidden;*/
+  /*display: flex;*/
+  background-image: url("../../css-friends-06/images/cats.jpg");
+  background-size: cover;
+  /*position: relativ e;*/
+}
+
+/*.content-header img {
+  display: flex;
+  /*position: absolute;*/
+/*}
+
+/*.friend-body {
+  display: flex;
+  justify-content: space-between;
+  width: 660px;
+  background-color: black;
+  position: absolute;
+}*/
