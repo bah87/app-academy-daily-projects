@@ -40,7 +40,7 @@ class View {
 
   setupBoard() {
     const unorderedList = "<ul id='grid'></ul>";
-    $('.ttt').append(unorderedList);
+    this.$el.append(unorderedList);
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         const li = $('<li></li>').data('pos', [i, j]);
