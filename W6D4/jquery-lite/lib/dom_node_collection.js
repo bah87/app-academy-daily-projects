@@ -88,10 +88,28 @@ class DOMNodeCollection {
   }
   
   remove () {
-    this.empty();
     let removed = this.elements;
+    
+    this.empty();
+    this.elements.forEach( (el) => {
+      el.outerHTML = "";
+    });
+    
     this.elements = [];
     return removed;
+  }
+  
+  on (type, callback) {
+    this.elements.forEach( (el) => {
+      el.addEventListener(type, callback);
+      el.callbackFn = callback;
+    });
+  }
+  
+  off (type) {
+    this.elements.forEach( (el) => {
+      el.removeEventListener(type, el.callbackFn);
+    });
   }
 }
 

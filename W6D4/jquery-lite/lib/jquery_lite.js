@@ -72,13 +72,23 @@
 
 const DOMNodeCollection = __webpack_require__(1);
 
-$l = (selectorOrHTML) => {
+const $l = (...selectorOrHTMLOrFns) => {
   let nodeArr = [];
   
-  if (selectorOrHTML instanceof HTMLElement) {
-    nodeArr.push(selectorOrHTML);
-  } else {
-    let elementList = document.querySelectorAll(selectorOrHTML);
+  if (selectorOrHTMLOrFns[0] instanceof HTMLElement) {
+    nodeArr.push(selectorOrHTMLOrFns[0]);
+  } 
+  
+  else if (typeof selectorOrHTMLOrFns[0] === "function") {
+    document.addEventListener("DOMContentLoaded", function() {
+      selectorOrHTMLOrFns.forEach( (fn) => {
+        fn();
+      });
+    });
+  } 
+  
+  else {
+    let elementList = document.querySelectorAll(selectorOrHTMLOrFns[0]);
     
     for (let i = 0; i < elementList.length; i++) {
       nodeArr.push(elementList[i]);
@@ -88,7 +98,43 @@ $l = (selectorOrHTML) => {
   return new DOMNodeCollection(nodeArr);
 };
 
+$l.extend = (...objects) => {
+  return Object.assign(...objects);
+};
+
+$l.ajax = (options) => {
+  let defaults = { 
+    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+    dataType: 'JSON',
+    method: 'GET',
+    data: {},
+    success: (data) => {
+              console.log("Success!");
+              console.log(data);
+            },
+    error: () => {
+            console.error("An error occurred.");
+          },
+    url: window.location.href
+  };
+  
+  options = $.extend(defaults, options);
+  
+  const xhr = new XMLHttpRequest();
+
+  xhr.open(options.method, options.url);
+
+  xhr.onload = function () {
+    console.log(xhr.status); 
+    console.log(xhr.responseType); 
+    console.log(xhr.response); 
+  };
+
+  xhr.send();
+};
+
 window.$l = $l;
+$l(() => alert("1"), () => alert("2"));
 
 /***/ }),
 /* 1 */
@@ -184,10 +230,28 @@ class DOMNodeCollection {
   }
   
   remove () {
-    this.empty();
     let removed = this.elements;
+    
+    this.empty();
+    this.elements.forEach( (el) => {
+      el.outerHTML = "";
+    });
+    
     this.elements = [];
     return removed;
+  }
+  
+  on (type, callback) {
+    this.elements.forEach( (el) => {
+      el.addEventListener(type, callback);
+      el.callbackFn = callback;
+    });
+  }
+  
+  off (type) {
+    this.elements.forEach( (el) => {
+      el.removeEventListener(type, el.callbackFn);
+    });
   }
 }
 
