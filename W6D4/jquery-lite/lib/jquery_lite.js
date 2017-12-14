@@ -127,32 +127,67 @@ class DOMNodeCollection {
     }
   }
   
-  attr () {
-    
+  attr (name, value) {
+    if (value === undefined) {
+      return this.elements[0].getAttribute(name);
+    } else {
+      this.elements.forEach( (attribute) => {
+        attribute.setAttribute(name, value);
+      });
+    }
   }
   
-  addClass () {
-    
+  addClass (className) {
+    this.elements.forEach( (el) => {
+      el.className = className;
+    });
   }
   
   removeClass () {
-    
+    this.elements.forEach( (el) => {
+      el.className = "";
+    });
   }
   
   children () {
+    let children = [];
+    this.elements.forEach( (el) => {
+      for (let i = 0; i < el.children.length; i++) {
+        children.push(el.children[i]);
+      }
+    });
     
+    return new DOMNodeCollection(children);
   }
   
   parent () {
+    let parents = [];
+    this.elements.forEach( (el) => {
+      parents.push(el.parentElement);
+    });
     
+    return new DOMNodeCollection(parents);
   }
   
-  find () {
+  find (selector) {
+    let found = [];
+    let oneQuery;
     
+    this.elements.forEach( (el) => {
+      oneQuery = el.querySelectorAll(selector);
+      for (let i = 0; i < oneQuery.length; i++) {
+        found.push(oneQuery[i]);
+      }
+    });
+    
+    return found;
   }
   
   remove () {
-    
+    this.empty();
+    let removed = this.elements;
+    this.elements = [];
+    return removed;
   }
 }
 
