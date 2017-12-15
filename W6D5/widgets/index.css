@@ -1,0 +1,82 @@
+.widgets {
+  margin: auto;
+  width: 650px;
+  font-family: 'Bungee', cursive;
+}
+.clock-wrapper{
+  margin: auto;
+  width: 575px;
+}
+
+.clock {
+  margin: auto;
+  width: 575px;
+  height: 125px;
+  background-color: orange;
+  color: white;
+  font-size: 20px;
+  border: 2px solid black;
+}
+
+.time {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 50px;
+  height: 50px;
+}
+
+.date {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 50px;
+  height: 50px;
+}
+
+.tab {
+  width: 275px;
+  height: 200px;
+  display: block;
+  margin: 40px 0;
+}
+
+.tab-header {
+  /* width: 200px; */
+  height: 30px;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin: auto; */
+  padding: 0;
+}
+
+.tab-header li {
+  background-color: lightgrey;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.selected {
+  color: red;
+  padding: 0 10px;
+}
+
+.tab-title {
+  padding: 0 10px;
+}
+
+.tab-content {
+  color: white;
+  display: block;
+  background-color: grey;
+  height: 150px;
+  width: 240px;
+  padding: 15px;
+  /* margin: 0 20px; */
+  margin: auto;
+}
+
+.lower-widgets {
+  display: flex;
+  justify-content: space-between;
+}
