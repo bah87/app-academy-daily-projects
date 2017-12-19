@@ -15,7 +15,7 @@ class TodoForm extends React.Component {
     this.props.receiveTodo({id: uniqueId(),
                             title: this.state.title,
                             body: this.state.body
-    });
+                          });
   }
 
   handleBody(event) {
@@ -29,9 +29,15 @@ class TodoForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input type="text" value={this.state.title} onChange={this.handleTitle}/>
-        <input type="text" value={this.state.body} onChange={this.handleBody}/>
-        <input type="submit" value="Add Item"/>
+        <label>Title
+          <input type="text" value={this.state.title} onChange={this.handleTitle}/>
+        </label>
+
+        <label>Body
+          <input type="text" value={this.state.body} onChange={this.handleBody}/>
+        </label>
+
+        <input type="submit" value="Create Todo!"/>
       </form>
     );
   }
