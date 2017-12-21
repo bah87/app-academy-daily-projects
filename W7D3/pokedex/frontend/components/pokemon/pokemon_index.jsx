@@ -1,31 +1,31 @@
 import React from 'react';
+import PokemonIndexItem from './pokemon_index_item';
+import { Route } from 'react-router-dom';
+import PokemonDetailContainer from './pokemon_detail_container';
 
 class PokemonIndex extends React.Component {
   constructor(props) {
     super(props);
-    // this.props.requestAllPokemon = this.props.requestAllPokemon.bind(this);
   }
 
   componentDidMount() {
-    // debugger
     this.props.requestAllPokemon();
   }
 
   render() {
-    // debugger
-    const pokemon = this.props.pokemon.map( (poke) => {
+    const pokemonItems = this.props.pokemon.map( (poke) => {
       return (
-        <li key={poke.id}>
-          <h2>{poke.name}</h2>
-          <img src={poke.image_url}></img>
-        </li>
+        <PokemonIndexItem key={poke.id} pokemon={poke} />
       );
     });
 
     return (
-      <ul>
-        {pokemon}
-      </ul>
+      <div id="pokedex-index">
+        <ul>
+          {pokemonItems}
+        </ul>
+        <Route path='/pokemon/:pokemonId' component={PokemonDetailContainer}/>
+      </div>
     );
   }
 }
